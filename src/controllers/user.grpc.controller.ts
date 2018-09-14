@@ -2,19 +2,22 @@ import { Controller, Inject } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { __ as t } from 'i18n';
 
-import { CreateUserInput, UpdateUserInput, UserInfoData } from '../interfaces/user.interface';
+import { CreateUserInput, UpdateUserInput, UserData } from '../interfaces/user.interface';
 import { UserService } from '../services/user.service';
+import { AuthService} from "../auth/auth.service";
 
 @Controller()
 export class UserGrpcController {
     constructor(
-        @Inject(UserService) private readonly userService: UserService
+        @Inject(UserService) private readonly userService: UserService,
+        @Inject(AuthService) private readonly authService: AuthService
     ) { }
 
     @GrpcMethod('UserService')
     async loginByMobile(payload: { mobile: string, verificationCode: string }) {
-        const data = await this.userService.loginByMobile(payload.mobile, payload.verificationCode);
-        return { code: 200, message: t('Login success'), data };
+        const userData = await this.userService.loginByMobile(payload.mobile, payload.verificationCode);
+        const tokenInfo = await this.authService.createToken({ userId: userData.userId });
+        return { code: 200, message: t('Login success'), data: { tokenInfo, userData } };
     }
 
     @GrpcMethod('UserService')
@@ -31,7 +34,7 @@ export class UserGrpcController {
 
     @GrpcMethod('UserService')
     async findUserInfoByIds(payload: { userIds: string[] }) {
-        const data = await this.userService.findUserInfoById(payload.userIds) as UserInfoData[];
+        const data = await this.userService.findUserInfoById(payload.userIds) as UserData[];
         return { code: 200, message: t('Query the specified users information successfully'), data };
     }
 }

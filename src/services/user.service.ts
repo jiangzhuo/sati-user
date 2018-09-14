@@ -6,7 +6,7 @@ import { EntityManager, Repository } from 'typeorm';
 
 import { AuthService } from '../auth/auth.service';
 import { User } from '../entities/user.entity';
-import { CreateUserInput, UpdateUserInput, UserInfoData } from '../interfaces/user.interface';
+import { CreateUserInput, UpdateUserInput, UserData } from '../interfaces/user.interface';
 import { CryptoUtil } from '../utils/crypto.util';
 
 @Injectable()
@@ -61,7 +61,7 @@ export class UserService {
         // if (!await this.cryptoUtil.checkPassword(password, user.password)) {
         //     throw new HttpException(t('invalid password'), 406);
         // }
-        return this.authService.createToken({ userId: user.id.toString() });
+        return this.refactorUserData(user)
     }
 
     /**
@@ -103,12 +103,12 @@ export class UserService {
      *
      * @param id
      */
-    async findUserInfoById(id: string | string[]): Promise<UserInfoData | UserInfoData[]> {
+    async findUserInfoById(id: string | string[]): Promise<UserData | UserData[]> {
         if (id instanceof Array) {
-            const userInfoData: UserInfoData[] = [];
+            const userInfoData: UserData[] = [];
             const users = await this.userRepo.find({ where: { id: { $in: id } } });
             for (const user of users) {
-                (userInfoData as UserInfoData[]).push(this.refactorUserData(user));
+                (userInfoData as UserData[]).push(this.refactorUserData(user));
             }
             return userInfoData;
         } else {
@@ -123,7 +123,7 @@ export class UserService {
      * @param user The user object
      */
     private refactorUserData(user: User) {
-        const userInfoData: UserInfoData = {
+        const userInfoData: UserData = {
             userId: user.id.toString(),
             mobile: user.mobile,
             nickname: user.nickname,

@@ -28,7 +28,7 @@ message LoginByMobileResponse {
     LoginResponseData data = 3;
     message LoginResponseData {
         TokenInfo tokenInfo = 1;
-        UserData userInfoData = 2;
+        UserData userData = 2;
     }
     message TokenInfo {
         string accessToken = 1;
