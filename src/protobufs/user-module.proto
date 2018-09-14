@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package sati_module_user;
+
+message PlaceholderRequest { }
+
+message StringDataResponse {
+    int32 code = 1;
+    string message = 2;
+    string data = 3;
+}
+
+service UserService {
+    rpc LoginByMobile (LoginByMobileRequest) returns (LoginByMobileResponse) { }
+    rpc RegisterByMobile (RegisterByMobileRequest) returns (StringDataResponse) { }
+    rpc UpdateUserInfoById (UpdateUserInfoByIdRequest) returns (StringDataResponse) { }
+    rpc FindUserInfoByIds (FindUserInfoByIdsRequest) returns (FindUserInfoByIdsResponse) { }
+}
+
+message LoginByMobileRequest {
+    string mobile = 1;
+    string verificationCode = 2;
+}
+
+message LoginByMobileResponse {
+    int32 code = 1;
+    string message = 2;
+    LoginResponseData data = 3;
+    message LoginResponseData {
+        TokenInfo tokenInfo = 1;
+        UserData userInfoData = 2;
+    }
+    message TokenInfo {
+        string accessToken = 1;
+        int32 expiresIn = 2;
+    }
+}
+
+message RegisterByMobileRequest {
+    RegisterUserInput registerUserInput = 1;
+    message RegisterUserInput {
+        string mobile = 1;
+        string password = 2;
+        string nickname = 3;
+    }
+}
+
+message UpdateUserInput {
+    string nickname = 1;
+    string password = 2;
+}
+
+message UpdateUserInfoByIdRequest {
+    string userId = 1;
+    UpdateUserInput updateUserInput = 2;
+}
+
+message FindUserInfoByIdsRequest {
+    repeated string userIds = 1;
+}
+
+message FindUserInfoByIdsResponse {
+    int32 code = 1;
+    string message = 2;
+    repeated UserData data = 3;
+}
+
+message UserData {
+    string userId = 1;
+    string username = 2;
+    string mobile = 4;
+    string nickname = 3;
+    int32 status = 5;
+    int32 createTime = 6;
+    int32 updateTime = 7;
+}

@@ -1,0 +1,45 @@
+{
+    "name": "sati-user",
+    "version": "0.0.1",
+    "description": "The user module for sta application.",
+    "scripts": {
+        "start": "ts-node -r tsconfig-paths/register src/main.ts",
+        "start:watch": "nodemon",
+        "debug": "node --inspect-brk -r ts-node/register src/main.ts",
+        "debug:watch": "nodemon --config nodemon-debug.json",
+        "check": "tslint -p tsconfig.json -c tslint.json",
+        "fix": "tslint -p tsconfig.json -c tslint.json --fix",
+        "build": "node --max_old_space_size=4096 ./node_modules/gulp/bin/gulp.js build"
+    },
+    "author": "jiangzhuo",
+    "license": "Apache-2.0",
+    "private": true,
+    "dependencies": {
+        "@grpc/proto-loader": "^0.3.0",
+        "@nestjs/common": "^5.3.7",
+        "@nestjs/core": "^5.3.7",
+        "@nestjs/microservices": "^5.3.7",
+        "@nestjs/typeorm": "^5.2.1",
+        "bcryptjs": "^2.4.3",
+        "grpc": "^1.15.0",
+        "i18n": "^0.8.3",
+        "jsonwebtoken": "^8.3.0",
+        "moment": "^2.22.2",
+        "mongodb": "^3.1.4",
+        "pg": "^7.4.3",
+        "reflect-metadata": "^0.1.12",
+        "rxjs": "^6.3.1",
+        "typeorm": "^0.2.7",
+        "typescript": "^3.0.3"
+    },
+    "devDependencies": {
+        "@types/bcryptjs": "^2.4.1",
+        "@types/i18n": "^0.8.3",
+        "@types/jsonwebtoken": "^7.2.8",
+        "@types/node": "^10.9.4",
+        "nodemon": "^1.18.4",
+        "ts-node": "^7.0.0",
+        "tsconfig-paths": "^3.6.0",
+        "tslint": "^5.11.0"
+    }
+}
