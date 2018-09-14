@@ -69,7 +69,7 @@ export class UserService {
      *
      * @param createUserInput
      */
-    async register(createUserInput: CreateUserInput): Promise<void> {
+    async registerByMobile(createUserInput: CreateUserInput): Promise<void> {
         createUserInput.status = 0;
         await this.createUser(createUserInput);
     }

@@ -12,9 +12,15 @@ message StringDataResponse {
 
 service UserService {
     rpc LoginByMobile (LoginByMobileRequest) returns (LoginByMobileResponse) { }
+    rpc GetLoginVerificationCode(GetVerificationRequest) returns (StringDataResponse) { }
     rpc RegisterByMobile (RegisterByMobileRequest) returns (StringDataResponse) { }
+    rpc GetRegisterVerificationCode(GetVerificationRequest) returns (StringDataResponse) { }
     rpc UpdateUserInfoById (UpdateUserInfoByIdRequest) returns (StringDataResponse) { }
     rpc FindUserInfoByIds (FindUserInfoByIdsRequest) returns (FindUserInfoByIdsResponse) { }
+}
+
+message GetVerificationRequest {
+    string mobile = 1;
 }
 
 message LoginByMobileRequest {

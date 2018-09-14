@@ -1,10 +1,12 @@
 import { Controller, Inject } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import { __ as t } from 'i18n';
+import * as SMSClient from '@alicloud/sms-sdk';
+import {ACCESS_KEY_ID,ACCESS_KEY_SECRET,REGISTER_TEMPLATE_CODE,LOGIN_TEMPLATE_CODE} from '../configurations/sms.config'
 
 import { CreateUserInput, UpdateUserInput, UserData } from '../interfaces/user.interface';
 import { UserService } from '../services/user.service';
-import { AuthService} from "../auth/auth.service";
+import { AuthService } from "../auth/auth.service";
 
 @Controller()
 export class UserGrpcController {
@@ -22,8 +24,43 @@ export class UserGrpcController {
 
     @GrpcMethod('UserService')
     async registerByMobile(payload: { registerUserInput: CreateUserInput }) {
-        await this.userService.register(payload.registerUserInput);
+        await this.userService.registerByMobile(payload.registerUserInput);
         return { code: 200, message: t('Registration success') };
+    }
+
+    @GrpcMethod('UserService')
+    async getRegisterVerificationCode(payload: { mobile: string }) {
+        let verificationCode = this.authService.generateRegisterVerificationCode(payload.mobile);
+        let smsClient = new SMSClient({ ACCESS_KEY_ID, ACCESS_KEY_SECRET });
+        await smsClient.sendSMS({
+            PhoneNumbers: payload.mobile,
+            SignName: '正念app测试',
+            TemplateCode: REGISTER_TEMPLATE_CODE,
+            TemplateParam: `{"code":"${verificationCode}"}`
+        });
+        //     .then(function (res) {
+        //     let {Code}=res
+        //     if (Code === 'OK') {
+        //         //处理返回参数
+        //         console.log(res)
+        //     }
+        // }, function (err) {
+        //     console.log(err)
+        // })
+        return { code: 200, message: t('getRegisterVerificationCode success'), data: verificationCode };
+    }
+
+    @GrpcMethod('UserService')
+    async getLoginVerificationCode(payload: { mobile: string }) {
+        let verificationCode = this.authService.generateLoginVerificationCode(payload.mobile);
+        let smsClient = new SMSClient({ ACCESS_KEY_ID, ACCESS_KEY_SECRET });
+        await smsClient.sendSMS({
+            PhoneNumbers: payload.mobile,
+            SignName: '正念app测试',
+            TemplateCode: REGISTER_TEMPLATE_CODE,
+            TemplateParam: `{"code":"${verificationCode}"}`
+        });
+        return { code: 200, message: t('getLoginVerificationCode success'), data: verificationCode };
     }
 
     @GrpcMethod('UserService')
