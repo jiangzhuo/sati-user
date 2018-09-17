@@ -8,10 +8,8 @@ export interface UserData {
 
 export interface CreateUserInput {
     mobile: string;
-    username: string;
     password: string;
     nickname: string;
-    verificationCode: number;
     status?: number;
 }
 

@@ -52,16 +52,18 @@ export class UserService {
      * @param mobile  手机号
      * @param verificationCode  验证码
      */
-    async loginByMobile(mobile: string, verificationCode: string) {
+    async loginByMobile(mobile: string) {
         const user = await this.userRepo.findOne({ mobile });
-        if (verificationCode !== '666') {
-            // todo 验证OTP逻辑，这里先写死666进行测试
+        return this.refactorUserData(user);
+    }
+
+    async loginByMobileAndPassword(mobile: string, password: string) {
+        const user = await this.userRepo.findOne({mobile});
+        if (!user) throw new RpcException({ code: 404, message: t('User does not exist') });
+        if (!await this.cryptoUtil.checkPassword(password, user.password)) {
             throw new RpcException({ code: 406, message: t('invalid password') });
         }
-        // if (!await this.cryptoUtil.checkPassword(password, user.password)) {
-        //     throw new HttpException(t('invalid password'), 406);
-        // }
-        return this.refactorUserData(user)
+        return this.refactorUserData(user);
     }
 
     /**
@@ -69,7 +71,7 @@ export class UserService {
      *
      * @param createUserInput
      */
-    async registerByMobile(createUserInput: CreateUserInput): Promise<void> {
+    async registerBySMSCode(createUserInput: CreateUserInput): Promise<void> {
         createUserInput.status = 0;
         await this.createUser(createUserInput);
     }

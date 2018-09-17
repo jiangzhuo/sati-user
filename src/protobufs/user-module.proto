@@ -11,9 +11,10 @@ message StringDataResponse {
 }
 
 service UserService {
-    rpc LoginByMobile (LoginByMobileRequest) returns (LoginByMobileResponse) { }
+    rpc LoginBySMSCode (LoginBySMSCodeRequest) returns (LoginResponse) { }
+    rpc LoginByMobileAndPassword (LoginByMobileAndPasswordRequest) returns (LoginResponse) { }
     rpc GetLoginVerificationCode(GetVerificationRequest) returns (StringDataResponse) { }
-    rpc RegisterByMobile (RegisterByMobileRequest) returns (StringDataResponse) { }
+    rpc RegisterBySMSCode (RegisterBySMSCodeRequest) returns (StringDataResponse) { }
     rpc GetRegisterVerificationCode(GetVerificationRequest) returns (StringDataResponse) { }
     rpc UpdateUserInfoById (UpdateUserInfoByIdRequest) returns (StringDataResponse) { }
     rpc FindUserInfoByIds (FindUserInfoByIdsRequest) returns (FindUserInfoByIdsResponse) { }
@@ -23,12 +24,17 @@ message GetVerificationRequest {
     string mobile = 1;
 }
 
-message LoginByMobileRequest {
+message LoginBySMSCodeRequest {
     string mobile = 1;
     string verificationCode = 2;
 }
 
-message LoginByMobileResponse {
+message LoginByMobileAndPasswordRequest {
+    string mobile = 1;
+    string password = 2;
+}
+
+message LoginResponse {
     int32 code = 1;
     string message = 2;
     LoginResponseData data = 3;
@@ -42,8 +48,9 @@ message LoginByMobileResponse {
     }
 }
 
-message RegisterByMobileRequest {
+message RegisterBySMSCodeRequest {
     RegisterUserInput registerUserInput = 1;
+    string verificationCode = 2;
     message RegisterUserInput {
         string mobile = 1;
         string password = 2;

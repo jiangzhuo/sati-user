@@ -1,4 +1,5 @@
 import { DynamicModule, Inject, Module, OnModuleInit } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
 import { configure as i18nConfigure } from 'i18n';
 import { Repository } from 'typeorm';
