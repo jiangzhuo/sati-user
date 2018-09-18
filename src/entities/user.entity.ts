@@ -20,6 +20,9 @@ export class User {
     nickname: string;
 
     @Column()
+    avatar: string;
+
+    @Column()
     status: number;
 
     @Column()

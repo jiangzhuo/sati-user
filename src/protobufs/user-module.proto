@@ -17,7 +17,7 @@ service UserService {
     rpc RegisterBySMSCode (RegisterBySMSCodeRequest) returns (StringDataResponse) { }
     rpc GetRegisterVerificationCode(GetVerificationRequest) returns (StringDataResponse) { }
     rpc UpdateUserInfoById (UpdateUserInfoByIdRequest) returns (StringDataResponse) { }
-    rpc FindUserInfoByIds (FindUserInfoByIdsRequest) returns (FindUserInfoByIdsResponse) { }
+    rpc FindUserInfoById (FindUserInfoByIdRequest) returns (FindUserInfoByIdResponse) { }
 }
 
 message GetVerificationRequest {
@@ -55,12 +55,14 @@ message RegisterBySMSCodeRequest {
         string mobile = 1;
         string password = 2;
         string nickname = 3;
+        string avatar = 4;
     }
 }
 
 message UpdateUserInput {
     string nickname = 1;
     string password = 2;
+    string avatar = 3;
 }
 
 message UpdateUserInfoByIdRequest {
@@ -68,22 +70,22 @@ message UpdateUserInfoByIdRequest {
     UpdateUserInput updateUserInput = 2;
 }
 
-message FindUserInfoByIdsRequest {
-    repeated string userIds = 1;
+message FindUserInfoByIdRequest {
+    string userId = 1;
 }
 
-message FindUserInfoByIdsResponse {
+message FindUserInfoByIdResponse {
     int32 code = 1;
     string message = 2;
-    repeated UserData data = 3;
+    UserData data = 3;
 }
 
 message UserData {
     string userId = 1;
     string username = 2;
-    string mobile = 4;
     string nickname = 3;
-    int32 status = 5;
-    int32 createTime = 6;
+    string mobile = 4;
+    string avatar = 5;
+    int32 status = 6;
     int32 updateTime = 7;
 }

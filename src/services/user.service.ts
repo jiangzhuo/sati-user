@@ -40,6 +40,9 @@ export class UserService {
         if (updateUserInput.nickname) {
             await this.userRepo.update(user.id, { nickname: updateUserInput.nickname });
         }
+        if (updateUserInput.avatar) {
+            await this.userRepo.update(user.id, { avatar: updateUserInput.avatar });
+        }
         if (updateUserInput.password) {
             const newPassword = await this.cryptoUtil.encryptPassword(updateUserInput.password);
             await this.userRepo.update(user.id, { password: newPassword });
@@ -129,6 +132,7 @@ export class UserService {
             userId: user.id.toString(),
             mobile: user.mobile,
             nickname: user.nickname,
+            avatar: user.avatar,
             status: user.status,
             updateTime: user.updateTime
         };

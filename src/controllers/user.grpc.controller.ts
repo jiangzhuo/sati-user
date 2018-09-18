@@ -94,8 +94,8 @@ export class UserGrpcController {
     }
 
     @GrpcMethod('UserService')
-    async findUserInfoByIds(payload: { userIds: string[] }) {
-        const data = await this.userService.findUserInfoById(payload.userIds) as UserData[];
+    async findUserInfoById(payload: { userId: string }) {
+        const data = await this.userService.findUserInfoById(payload.userId) as UserData;
         return { code: 200, message: t('Query the specified users information successfully'), data };
     }
 }
