@@ -24,6 +24,7 @@ export interface UpdateUserInput {
     nickname?: string;
     avatar?: string;
     password?: string;
+    status?: number;
 }
 
 export interface User extends Document {

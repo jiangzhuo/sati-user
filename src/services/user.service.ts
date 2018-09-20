@@ -22,9 +22,10 @@ export class UserService {
         return await this.userModel.create(createUserInput);
     }
 
-    async updateUserInfo(id: string, updateUserInput: UpdateUserInput): Promise<User> {
+    async updateUser(id: string, updateUserInput: UpdateUserInput): Promise<User> {
         let user = await this.userModel.findOne({ _id: id }).exec();
         if (!user) throw new RpcException({ code: 404, message: t('User does not exist') });
+        console.log(updateUserInput)
         if (updateUserInput.nickname) {
             user = await this.userModel.findOneAndUpdate({ _id: id }, { nickname: updateUserInput.nickname }).exec();
         }
@@ -34,6 +35,9 @@ export class UserService {
         if (updateUserInput.password) {
             const newPassword = await this.cryptoUtil.encryptPassword(updateUserInput.password);
             user = await this.userModel.findOneAndUpdate({ _id: id }, { password: newPassword }).exec();
+        }
+        if (updateUserInput.status) {
+            user = await this.userModel.findOneAndUpdate({ _id: id }, { status: updateUserInput.status }).exec();
         }
         return user;
     }
@@ -65,5 +69,18 @@ export class UserService {
     async getUserByIds(ids: string[]): Promise<User[]> {
         const users = await this.userModel.find({ _id: { $in: ids } }).exec();
         return users
+    }
+
+    async getUserByMobile(id: string): Promise<User> {
+        const user = await this.userModel.findOne({ mobile: id }).exec();
+        return user;
+    }
+
+    async getUser(first = 20, after?: string): Promise<User[]> {
+        if (after) {
+            return await this.userModel.find({ _id: { $gte: after } }).limit(first).exec();
+        } else {
+            return await this.userModel.find().limit(first).exec();
+        }
     }
 }

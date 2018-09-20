@@ -80,14 +80,26 @@ export class UserGrpcController {
     }
 
     @GrpcMethod('UserService')
-    async updateUserById(payload: { id: string, updateUserInput: UpdateUserInput }) {
-        let user = await this.userService.updateUserInfo(payload.id, payload.updateUserInput);
+    async updateUserById(payload) {
+        let user = await this.userService.updateUser(payload.id, payload);
         return { data: user };
     }
 
     @GrpcMethod('UserService')
     async getUserById(payload: { id: string }) {
         const user = await this.userService.getUserById(payload.id);
+        return { data: user };
+    }
+
+    @GrpcMethod('UserService')
+    async getUserByMobile(payload: { mobile: string }) {
+        const user = await this.userService.getUserByMobile(payload.mobile);
+        return { data: user };
+    }
+
+    @GrpcMethod('UserService')
+    async getUser(payload: { first: number, after: string }) {
+        const user = await this.userService.getUser(payload.first, payload.after);
         return { data: user };
     }
 }
