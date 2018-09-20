@@ -10,7 +10,7 @@ import {
     SIGN_NAME
 } from '../configurations/sms.config'
 
-import { CreateUserInput, UpdateUserInput, UserData } from '../interfaces/user.interface';
+import { CreateUserInput, UpdateUserInput } from '../interfaces/user.interface';
 import { UserService } from '../services/user.service';
 import { AuthService } from "../auth/auth.service";
 import { LoggingInterceptor } from "../interceptors/logging.interceptor";
@@ -28,28 +28,29 @@ export class UserGrpcController {
     async loginBySMSCode(payload: { mobile: string, verificationCode: string }) {
         const checkResult = this.authService.checkLoginVerificationCode(payload.verificationCode, payload.mobile);
         if (!checkResult) {
-            return { code: 406, message: t('Login by mobile failed'), data: {} };
+            throw new RpcException({ code: 406, message: t('Login by mobile failed') });
         }
-        const userData = await this.userService.loginByMobile(payload.mobile);
-        const tokenInfo = await this.authService.createToken({ userId: userData.userId });
-        return { code: 200, message: t('Login success'), data: { tokenInfo, userData } };
+        const user = await this.userService.loginByMobile(payload.mobile);
+        if (!user) throw new RpcException({ code: 406, message: t('Login by mobile failed no user') });
+        const tokenInfo = this.authService.createToken({ userId: user.id });
+        return { data: { tokenInfo, user } };
     }
 
     @GrpcMethod('UserService')
     async loginByMobileAndPassword(payload: { mobile: string, password: string }) {
         const userData = await this.userService.loginByMobileAndPassword(payload.mobile, payload.password);
-        const tokenInfo = await this.authService.createToken({ userId: userData.userId });
-        return { code: 200, message: t('Login success'), data: { tokenInfo, userData } };
+        const tokenInfo = this.authService.createToken({ userId: userData.id });
+        return { data: { tokenInfo, userData } };
     }
 
     @GrpcMethod('UserService')
     async registerBySMSCode(payload: { registerUserInput: CreateUserInput, verificationCode: string }) {
         const checkResult = this.authService.checkRegisterVerificationCode(payload.verificationCode, payload.registerUserInput.mobile);
         if (!checkResult) {
-            return { code: 403, message: t('Registration by mobile failed') };
+            throw new RpcException({ code: 403, message: t('Registration by mobile failed') });
         }
-        await this.userService.registerBySMSCode(payload.registerUserInput);
-        return { code: 200, message: t('Registration success') };
+        let user = await this.userService.registerBySMSCode(payload.registerUserInput);
+        return { data: user };
     }
 
     @GrpcMethod('UserService')
@@ -62,16 +63,7 @@ export class UserGrpcController {
             TemplateCode: REGISTER_TEMPLATE_CODE,
             TemplateParam: `{"code":"${verificationCode}"}`
         });
-        //     .then(function (res) {
-        //     let {Code}=res
-        //     if (Code === 'OK') {
-        //         //处理返回参数
-        //         console.log(res)
-        //     }
-        // }, function (err) {
-        //     console.log(err)
-        // })
-        return { code: 200, message: t('getRegisterVerificationCode success'), data: verificationCode };
+        return { data: verificationCode };
     }
 
     @GrpcMethod('UserService')
@@ -84,18 +76,18 @@ export class UserGrpcController {
             TemplateCode: LOGIN_TEMPLATE_CODE,
             TemplateParam: `{"code":"${verificationCode}"}`
         });
-        return { code: 200, message: t('getLoginVerificationCode success'), data: verificationCode };
+        return { data: verificationCode };
     }
 
     @GrpcMethod('UserService')
-    async updateUserInfoById(payload: { userId: string, updateUserInput: UpdateUserInput }) {
-        await this.userService.updateUserInfo(payload.userId, payload.updateUserInput);
-        return { code: 200, message: t('Update user information successfully') };
+    async updateUserById(payload: { id: string, updateUserInput: UpdateUserInput }) {
+        let user = await this.userService.updateUserInfo(payload.id, payload.updateUserInput);
+        return { data: user };
     }
 
     @GrpcMethod('UserService')
-    async findUserInfoById(payload: { userId: string }) {
-        const data = await this.userService.findUserInfoById(payload.userId) as UserData;
-        return { code: 200, message: t('Query the specified users information successfully'), data };
+    async getUserById(payload: { id: string }) {
+        const user = await this.userService.getUserById(payload.id);
+        return { data: user };
     }
 }

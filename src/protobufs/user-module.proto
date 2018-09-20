@@ -4,20 +4,14 @@ package sati_module_user;
 
 message PlaceholderRequest { }
 
-message StringDataResponse {
-    int32 code = 1;
-    string message = 2;
-    string data = 3;
-}
-
 service UserService {
     rpc LoginBySMSCode (LoginBySMSCodeRequest) returns (LoginResponse) { }
     rpc LoginByMobileAndPassword (LoginByMobileAndPasswordRequest) returns (LoginResponse) { }
-    rpc GetLoginVerificationCode(GetVerificationRequest) returns (StringDataResponse) { }
-    rpc RegisterBySMSCode (RegisterBySMSCodeRequest) returns (StringDataResponse) { }
-    rpc GetRegisterVerificationCode(GetVerificationRequest) returns (StringDataResponse) { }
-    rpc UpdateUserInfoById (UpdateUserInfoByIdRequest) returns (StringDataResponse) { }
-    rpc FindUserInfoById (FindUserInfoByIdRequest) returns (FindUserInfoByIdResponse) { }
+    rpc GetLoginVerificationCode(GetVerificationRequest) returns (VerificationCodeResponse) { }
+    rpc GetRegisterVerificationCode(GetVerificationRequest) returns (VerificationCodeResponse) { }
+    rpc RegisterBySMSCode (RegisterBySMSCodeRequest) returns (UserResponse) { }
+    rpc UpdateUserById (UpdateUserByIdRequest) returns (UserResponse) { }
+    rpc GetUserById (GetUserByIdRequest) returns (UserResponse) { }
 }
 
 message GetVerificationRequest {
@@ -35,12 +29,10 @@ message LoginByMobileAndPasswordRequest {
 }
 
 message LoginResponse {
-    int32 code = 1;
-    string message = 2;
-    LoginResponseData data = 3;
+    LoginResponseData data = 1;
     message LoginResponseData {
         TokenInfo tokenInfo = 1;
-        UserData userData = 2;
+        User user = 2;
     }
     message TokenInfo {
         string accessToken = 1;
@@ -65,23 +57,29 @@ message UpdateUserInput {
     string avatar = 3;
 }
 
-message UpdateUserInfoByIdRequest {
-    string userId = 1;
+message UpdateUserByIdRequest {
+    string id = 1;
     UpdateUserInput updateUserInput = 2;
 }
 
-message FindUserInfoByIdRequest {
-    string userId = 1;
+message GetUserByIdRequest {
+    string id = 1;
 }
 
-message FindUserInfoByIdResponse {
-    int32 code = 1;
-    string message = 2;
-    UserData data = 3;
+message UserResponse {
+    User data = 1;
 }
 
-message UserData {
-    string userId = 1;
+message ManyUserResponse {
+    repeated User data = 1;
+}
+
+message VerificationCodeResponse {
+    string data = 1;
+}
+
+message User {
+    string id = 1;
     string username = 2;
     string nickname = 3;
     string mobile = 4;

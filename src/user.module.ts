@@ -1,27 +1,21 @@
 import { DynamicModule, Inject, Module, OnModuleInit } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
+import { MongooseModule } from '@nestjs/mongoose';
 import { configure as i18nConfigure } from 'i18n';
-import { Repository } from 'typeorm';
 
 import { AuthService } from './auth/auth.service';
+
 import { UserGrpcController } from './controllers/user.grpc.controller';
-import { User } from './entities/user.entity';
+import { UserSchema } from './schemas/user.schema';
 import { UserService } from './services/user.service';
+
 import { CryptoUtil } from './utils/crypto.util';
 
 @Module({
     imports: [
-        TypeOrmModule.forRoot({
-            type: 'mongodb',
-            url:'mongodb://sati:kjhguiyIUYkjh32kh@dds-2zee21d7f4fff2f41890-pub.mongodb.rds.aliyuncs.com:3717,dds-2zee21d7f4fff2f42351-pub.mongodb.rds.aliyuncs.com:3717/sati_user?replicaSet=mgset-9200157',
-            entities: [__dirname + '/../src/**/*.entity.ts'],
-            logger: 'advanced-console',
-            logging: false,
-            synchronize: true,
-            dropSchema: false
-        }),
-        TypeOrmModule.forFeature([User])
+        // MongooseModule.forRoot('mongodb://sati:kjhguiyIUYkjh32kh@dds-2zee21d7f4fff2f41890-pub.mongodb.rds.aliyuncs.com:3717,dds-2zee21d7f4fff2f42351-pub.mongodb.rds.aliyuncs.com:3717/sati_user?replicaSet=mgset-9200157'),
+        MongooseModule.forRoot('mongodb://localhost:27017/module_user'),
+        MongooseModule.forFeature([{ name: 'User', schema: UserSchema, collection: 'user' }])
     ],
     controllers: [
         UserGrpcController
@@ -35,8 +29,7 @@ import { CryptoUtil } from './utils/crypto.util';
 })
 export class UserModule implements OnModuleInit {
     constructor(
-        @Inject(UserService) private readonly userService: UserService,
-        @InjectRepository(User) private readonly userRepo: Repository<User>
+        @Inject(UserService) private readonly userService: UserService
     ) { }
 
     static forRoot(options: { i18n: 'en-US' | 'zh-CN' }): DynamicModule {

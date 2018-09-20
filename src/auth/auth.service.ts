@@ -23,7 +23,7 @@ export class AuthService {
     private registerAuthenticator: Authenticator;
     private loginAuthenticator: Authenticator;
 
-    async createToken(payload: JwtPayload): Promise<JwtReply> {
+    createToken(payload: JwtPayload): JwtReply {
         const accessToken = jwt.sign(payload, 'secretKey', { expiresIn: '1d' });
         return { accessToken, expiresIn: 60 * 60 * 24 };
     }

@@ -67,5 +67,6 @@
 	"getRegisterVerificationCode success": "getRegisterVerificationCode success",
 	"getLoginVerificationCode success": "getLoginVerificationCode success",
 	"Login by mobile failed": "Login by mobile failed",
-	"Registration by mobile failed": "Registration by mobile failed"
+	"Registration by mobile failed": "Registration by mobile failed",
+	"Login by mobile failed no user": "Login by mobile failed no user"
 }
