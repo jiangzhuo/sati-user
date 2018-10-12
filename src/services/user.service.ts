@@ -6,12 +6,14 @@ import { __ as t } from 'i18n';
 
 import { AuthService } from '../auth/auth.service';
 import { User, CreateUserInput, UpdateUserInput } from '../interfaces/user.interface';
+import { Account } from '../interfaces/account.interface';
 import { CryptoUtil } from '../utils/crypto.util';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectModel('User') private readonly userModel: Model<User>,
+        @InjectModel('Account') private readonly accountModel: Model<Account>,
         @Inject(CryptoUtil) private readonly cryptoUtil: CryptoUtil,
         @Inject(forwardRef(() => AuthService)) private readonly authService: AuthService
     ) { }
@@ -82,5 +84,22 @@ export class UserService {
         } else {
             return await this.userModel.find().limit(first).exec();
         }
+    }
+
+    async changeBalance(id: string, changeValue: number, type: string, extraInfo: string): Promise<User> {
+        const user = await this.userModel.findOneAndUpdate({
+            _id: id,
+            balance: { $gte: -1 * changeValue }
+        }, { $inc: { balance: changeValue } }, { new: true }).exec();
+        console.log(user)
+        if (!user) throw new RpcException({ code: 402, message: t('not enough balance') });
+        await this.accountModel.create({
+            userId: id,
+            value: changeValue,
+            afterBalance: user.balance,
+            type: type,
+            extraInfo: extraInfo,
+        });
+        return user
     }
 }

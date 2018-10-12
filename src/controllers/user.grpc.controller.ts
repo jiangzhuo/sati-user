@@ -102,4 +102,11 @@ export class UserGrpcController {
         const user = await this.userService.getUser(payload.first, payload.after);
         return { data: user };
     }
+
+    @GrpcMethod('UserService')
+    async changeBalance(payload: { id: string, changeValue: number, type: string, extraInfo: string }) {
+        console.log(payload)
+        const user = await this.userService.changeBalance(payload.id, payload.changeValue, payload.type, payload.extraInfo);
+        return { data: user };
+    }
 }

@@ -36,4 +36,5 @@ export interface User extends Document {
     readonly status: number;
     readonly createTime: number;
     readonly updateTime: number;
+    readonly balance: number;
 }

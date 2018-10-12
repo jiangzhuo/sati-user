@@ -5,15 +5,16 @@ package sati_module_user;
 message PlaceholderRequest { }
 
 service UserService {
-    rpc LoginBySMSCode (LoginBySMSCodeRequest) returns (LoginResponse) { }
-    rpc LoginByMobileAndPassword (LoginByMobileAndPasswordRequest) returns (LoginResponse) { }
-    rpc GetLoginVerificationCode(GetVerificationRequest) returns (VerificationCodeResponse) { }
-    rpc GetRegisterVerificationCode(GetVerificationRequest) returns (VerificationCodeResponse) { }
-    rpc RegisterBySMSCode (RegisterBySMSCodeRequest) returns (UserResponse) { }
-    rpc UpdateUserById (UpdateUserByIdRequest) returns (UserResponse) { }
-    rpc GetUserById (GetUserByIdRequest) returns (UserResponse) { }
-    rpc GetUserByMobile (GetUserByMobileRequest) returns (UserResponse) { }
-    rpc GetUser(GetUserRequest) returns (ManyUserResponse) { }
+    rpc LoginBySMSCode (LoginBySMSCodeRequest) returns (LoginResponse);
+    rpc LoginByMobileAndPassword (LoginByMobileAndPasswordRequest) returns (LoginResponse);
+    rpc GetLoginVerificationCode(GetVerificationRequest) returns (VerificationCodeResponse);
+    rpc GetRegisterVerificationCode(GetVerificationRequest) returns (VerificationCodeResponse);
+    rpc RegisterBySMSCode (RegisterBySMSCodeRequest) returns (UserResponse);
+    rpc UpdateUserById (UpdateUserByIdRequest) returns (UserResponse);
+    rpc GetUserById (GetUserByIdRequest) returns (UserResponse);
+    rpc GetUserByMobile (GetUserByMobileRequest) returns (UserResponse);
+    rpc GetUser(GetUserRequest) returns (ManyUserResponse);
+    rpc ChangeBalance(ChangeBalanceRequest) returns (UserResponse);
 }
 
 message GetVerificationRequest {
@@ -68,6 +69,13 @@ message UpdateUserByIdRequest {
     string status = 5;
 }
 
+message ChangeBalanceRequest {
+    string id = 1;
+    int32 changeValue = 2;
+    string type = 3;
+    string extraInfo = 4;
+}
+
 message GetUserByIdRequest {
     string id = 1;
 }
@@ -100,5 +108,7 @@ message User {
     string mobile = 4;
     string avatar = 5;
     int32 status = 6;
-    int32 updateTime = 7;
+    int32 createTime = 7;
+    int32 updateTime = 8;
+    int32 balance = 9;
 }

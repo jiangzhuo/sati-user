@@ -10,4 +10,5 @@ export const UserSchema = new mongoose.Schema({
     status: Number,
     createTime: Number,
     updateTime: Number,
+    balance: { type: Number, default: 0 },
 });

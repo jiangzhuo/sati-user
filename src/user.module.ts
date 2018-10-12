@@ -9,13 +9,16 @@ import { UserGrpcController } from './controllers/user.grpc.controller';
 import { UserSchema } from './schemas/user.schema';
 import { UserService } from './services/user.service';
 
+import { AccountSchema} from './schemas/account.schema';
+
 import { CryptoUtil } from './utils/crypto.util';
 
 @Module({
     imports: [
-        MongooseModule.forRoot('mongodb://sati:kjhguiyIUYkjh32kh@dds-2zee21d7f4fff2f41890-pub.mongodb.rds.aliyuncs.com:3717,dds-2zee21d7f4fff2f42351-pub.mongodb.rds.aliyuncs.com:3717/sati_user?replicaSet=mgset-9200157'),
-        // MongooseModule.forRoot('mongodb://localhost:27017/module_user'),
-        MongooseModule.forFeature([{ name: 'User', schema: UserSchema, collection: 'user' }])
+        // MongooseModule.forRoot('mongodb://sati:kjhguiyIUYkjh32kh@dds-2zee21d7f4fff2f41890-pub.mongodb.rds.aliyuncs.com:3717,dds-2zee21d7f4fff2f42351-pub.mongodb.rds.aliyuncs.com:3717/sati_user?replicaSet=mgset-9200157'),
+        MongooseModule.forRoot('mongodb://localhost:27017/module_user'),
+        MongooseModule.forFeature([{ name: 'User', schema: UserSchema, collection: 'user' }]),
+        MongooseModule.forFeature([{ name: 'Account', schema: AccountSchema, collection: 'account' }])
     ],
     controllers: [
         UserGrpcController
