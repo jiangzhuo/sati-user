@@ -9,7 +9,6 @@ export class LoggingInterceptor implements NestInterceptor {
         call$: Observable<any>,
     ): Observable<any> {
         console.log('Before...');
-
         const now = Date.now();
         return call$.pipe(tap(() => console.log(`After... ${Date.now() - now}ms`)));
     }

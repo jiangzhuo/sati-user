@@ -15,6 +15,26 @@ service UserService {
     rpc GetUserByMobile (GetUserByMobileRequest) returns (UserResponse);
     rpc GetUser(GetUserRequest) returns (ManyUserResponse);
     rpc ChangeBalance(ChangeBalanceRequest) returns (UserResponse);
+    rpc SearchUser (SearchUserRequest) returns (ManyUserResponse);
+    rpc CountUser (CountUserRequest) returns (CountUserResponse);
+    rpc SearchUserAccount (SearchUserAccountRequest) returns (SearchUserAccountResponse);
+    rpc CountUserAccount (CountUserAccountRequest) returns (CountUserAccountResponse);
+}
+
+message SearchUserRequest {
+    string keyword = 1;
+    int32 page = 2;
+    int32 limit = 3;
+    string sort = 4;
+}
+
+message CountUserRequest {
+    string keyword = 1;
+}
+
+message CountUserAccountRequest {
+    string userId = 1;
+    string type = 2;
 }
 
 message GetVerificationRequest {
@@ -96,9 +116,38 @@ message VerificationCodeResponse {
     string data = 1;
 }
 
+message CountUserResponse {
+    int32 data = 1;
+}
+
+message CountUserAccountResponse {
+    int32 data = 1;
+}
+
 message GetUserRequest {
     int32 first = 1;
     string after = 2;
+}
+
+message SearchUserAccountRequest {
+    string userId = 1;
+    int32 page = 2;
+    int32 limit = 3;
+    string type = 4;
+}
+
+message SearchUserAccountResponse {
+    repeated UserAccount data = 1;
+}
+
+message UserAccount {
+    string id = 1;
+    string userId = 2;
+    int32 value = 3;
+    int32 afterBalance = 4;
+    string type = 5;
+    int32 createTime = 6;
+    string extraInfo = 7;
 }
 
 message User {

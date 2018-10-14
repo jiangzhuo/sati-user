@@ -6,5 +6,6 @@ export const AccountSchema = new mongoose.Schema({
     value: Number,
     afterBalance: Number,
     type: String,
+    createTime: Number,
     extraInfo: { type: String, default: '' },
 });

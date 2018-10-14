@@ -105,8 +105,31 @@ export class UserGrpcController {
 
     @GrpcMethod('UserService')
     async changeBalance(payload: { id: string, changeValue: number, type: string, extraInfo: string }) {
-        console.log(payload)
         const user = await this.userService.changeBalance(payload.id, payload.changeValue, payload.type, payload.extraInfo);
         return { data: user };
+    }
+
+    @GrpcMethod('UserService')
+    async searchUser(payload: { keyword: string, page: number, limit: number, sort: string }) {
+        const user = await this.userService.searchUser(payload.keyword, payload.page, payload.limit, payload.sort);
+        return { data: user};
+    }
+
+    @GrpcMethod('UserService')
+    async countUser(payload: { keyword: string}) {
+        const total = await this.userService.countUser(payload.keyword);
+        return { data: total};
+    }
+
+    @GrpcMethod('UserService')
+    async searchUserAccount(payload: { userId: string, page: number, limit: number, type: string }) {
+        const data = await this.userService.searchUserAccount(payload.userId, payload.page, payload.limit, payload.type);
+        return { data: data };
+    }
+
+    @GrpcMethod('UserService')
+    async countUserAccount(payload: { userId: string, type: string }) {
+        const data = await this.userService.countUserAccount(payload.userId, payload.type);
+        return { data: data };
     }
 }

@@ -9,6 +9,10 @@ import { User, CreateUserInput, UpdateUserInput } from '../interfaces/user.inter
 import { Account } from '../interfaces/account.interface';
 import { CryptoUtil } from '../utils/crypto.util';
 
+
+import { ObjectId } from 'bson';
+import * as moment from 'moment';
+
 @Injectable()
 export class UserService {
     constructor(
@@ -86,6 +90,33 @@ export class UserService {
         }
     }
 
+    async searchUserAccount(userId = '', page, limit, type = ''): Promise<Account[]> {
+        let conditions = {};
+        if (userId !== '') {
+            conditions['userId'] = userId
+        }
+        if (type !== '') {
+            conditions['type'] = type
+        }
+        let userAccountDetails = await this.accountModel.find(
+            conditions,
+            null,
+            { limit: limit, skip: (page - 1) * limit }).exec();
+        return userAccountDetails
+    }
+
+    async countUserAccount(userId = '', type = ''): Promise<number> {
+        let conditions = {};
+        if (userId !== '') {
+            conditions['userId'] = userId
+        }
+        if (type !== '') {
+            conditions['type'] = type
+        }
+        let userAccountTotal = await this.accountModel.countDocuments(conditions).exec();
+        return userAccountTotal
+    }
+
     async changeBalance(id: string, changeValue: number, type: string, extraInfo: string): Promise<User> {
         const user = await this.userModel.findOneAndUpdate({
             _id: id,
@@ -98,8 +129,41 @@ export class UserService {
             value: changeValue,
             afterBalance: user.balance,
             type: type,
+            createTime: moment().unix(),
             extraInfo: extraInfo,
         });
         return user
+    }
+
+    getConditions(keyword: string, page?: number, limit?: number, sort?: string){
+        const mobileReg = /^1[3|4|5|7|8][0-9]{9}$/; //验证规则
+        let conditions = {}
+        if (ObjectId.isValid(keyword)) {
+            // 按照id查询
+            conditions = { _id: keyword };
+        } else if (mobileReg.test(keyword)) {
+            // 按照手机号查询
+            conditions = { mobile: keyword };
+        } else {
+            // 按照名字查询
+            conditions = { nickname: new RegExp(keyword, 'i') }
+        }
+        return conditions
+    }
+
+    async searchUser(keyword: string, page: number, limit: number, sort: string): Promise<User[]> {
+        let conditions = this.getConditions(keyword, page, limit, sort);
+        let user = await this.userModel.find(
+            conditions,
+            null,
+            { sort: sort, limit: limit, skip: (page - 1) * limit }).exec();
+
+        return user
+    }
+
+    async countUser(keyword: string): Promise<number> {
+        let conditions = this.getConditions(keyword);
+        let total = await this.userModel.countDocuments(conditions).exec();
+        return total
     }
 }
