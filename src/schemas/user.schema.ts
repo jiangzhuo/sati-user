@@ -11,4 +11,5 @@ export const UserSchema = new mongoose.Schema({
     createTime: Number,
     updateTime: Number,
     balance: { type: Number, default: 0 },
+    role: { type: Number, default: 0 }
 });

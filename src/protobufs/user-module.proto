@@ -160,4 +160,5 @@ message User {
     int32 createTime = 7;
     int32 updateTime = 8;
     int32 balance = 9;
+    int32 role = 10;
 }
