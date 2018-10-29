@@ -12,9 +12,15 @@ import { UserService } from './services/user.service';
 import { AccountSchema} from './schemas/account.schema';
 
 import { CryptoUtil } from './utils/crypto.util';
+import { ElasticsearchModule } from '@nestjs/elasticsearch';
 
 @Module({
     imports: [
+        ElasticsearchModule.register({
+            host: 'http://es-cn-mp90uekur0001c8sa.public.elasticsearch.aliyuncs.com:9200',
+            httpAuth: 'elastic:Its%queOress2',
+            log: 'trace',
+        }),
         MongooseModule.forRoot('mongodb://sati:kjhguiyIUYkjh32kh@dds-2zee21d7f4fff2f41890-pub.mongodb.rds.aliyuncs.com:3717,dds-2zee21d7f4fff2f42351-pub.mongodb.rds.aliyuncs.com:3717/sati_user?replicaSet=mgset-9200157',
         // MongooseModule.forRoot('mongodb://localhost:27017/module_user',
             { connectionName: 'user', useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true }),

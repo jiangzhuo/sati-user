@@ -15,7 +15,7 @@ service UserService {
     rpc GetUserByMobile (GetUserByMobileRequest) returns (UserResponse);
     rpc GetUser(GetUserRequest) returns (ManyUserResponse);
     rpc ChangeBalance(ChangeBalanceRequest) returns (UserResponse);
-    rpc SearchUser (SearchUserRequest) returns (ManyUserResponse);
+    rpc SearchUser (SearchUserRequest) returns (SearchUserResponse);
     rpc CountUser (CountUserRequest) returns (CountUserResponse);
     rpc SearchUserAccount (SearchUserAccountRequest) returns (SearchUserAccountResponse);
     rpc CountUserAccount (CountUserAccountRequest) returns (CountUserAccountResponse);
@@ -25,7 +25,6 @@ message SearchUserRequest {
     string keyword = 1;
     int32 page = 2;
     int32 limit = 3;
-    string sort = 4;
 }
 
 message CountUserRequest {
@@ -110,6 +109,11 @@ message UserResponse {
 
 message ManyUserResponse {
     repeated User data = 1;
+}
+
+message SearchUserResponse {
+    int32 total = 1;
+    repeated User data = 2;
 }
 
 message VerificationCodeResponse {

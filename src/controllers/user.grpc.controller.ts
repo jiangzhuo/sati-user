@@ -110,9 +110,8 @@ export class UserGrpcController {
     }
 
     @GrpcMethod('UserService')
-    async searchUser(payload: { keyword: string, page: number, limit: number, sort: string }) {
-        const user = await this.userService.searchUser(payload.keyword, payload.page, payload.limit, payload.sort);
-        return { data: user};
+    async searchUser(payload: { keyword: string, page: number, limit: number}) {
+        return await this.userService.searchUser(payload.keyword, (payload.page - 1) * payload.limit, payload.limit);
     }
 
     @GrpcMethod('UserService')

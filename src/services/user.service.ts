@@ -12,10 +12,12 @@ import { CryptoUtil } from '../utils/crypto.util';
 
 import { ObjectId } from 'bson';
 import * as moment from 'moment';
+import { ElasticsearchService } from '@nestjs/elasticsearch';
 
 @Injectable()
 export class UserService {
     constructor(
+        @Inject(ElasticsearchService) private readonly elasticsearchService: ElasticsearchService,
         @InjectModel('User') private readonly userModel: Model<User>,
         @InjectModel('Account') private readonly accountModel: Model<Account>,
         @Inject(CryptoUtil) private readonly cryptoUtil: CryptoUtil,
@@ -151,14 +153,49 @@ export class UserService {
         return conditions
     }
 
-    async searchUser(keyword: string, page: number, limit: number, sort: string): Promise<User[]> {
-        let conditions = this.getConditions(keyword, page, limit, sort);
-        let user = await this.userModel.find(
-            conditions,
-            null,
-            { sort: sort, limit: limit, skip: (page - 1) * limit }).exec();
+    async searchUser(keyword: string, from: number, size: number): Promise<{ total: number, data: User[] }> {
+        // let conditions = this.getConditions(keyword, page, limit, sort);
+        // let user = await this.userModel.find(
+        //     conditions,
+        //     null,
+        //     { sort: sort, limit: limit, skip: (page - 1) * limit }).exec();
+        //
+        // return user
+        let res = await this.elasticsearchService.search({
+            index: 'user',
+            type: 'user',
+            body: {
+                from: from,
+                size: size,
+                query: {
+                    bool: {
+                        should: [
+                            {
+                                wildcard: {
+                                    mobile: `${keyword}*`
+                                }
+                            },
+                            {
+                                wildcard: {
+                                    nickname: `*${keyword}*`
+                                }
+                            },
+                            {
+                                wildcard: {
+                                    username: `*${keyword}*`
+                                }
+                            }
+                        ]
+                    }
+                },
+                // sort: {
+                //     createTime: { order: "desc" }
+                // }
+            }
+        }).toPromise()
 
-        return user
+        const ids = res[0].hits.hits.map(hit=>hit._id)
+        return { total: res[0].hits.total, data: await this.getUserByIds(ids) }
     }
 
     async countUser(keyword: string): Promise<number> {
