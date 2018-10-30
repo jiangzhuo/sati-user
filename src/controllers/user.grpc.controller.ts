@@ -44,6 +44,13 @@ export class UserGrpcController {
     }
 
     @GrpcMethod('UserService')
+    async renewToken(payload: { userId: string }) {
+        const userData = await this.userService.getUserById(payload.userId);
+        const tokenInfo = this.authService.createToken({ userId: payload.userId });
+        return { data: { tokenInfo, userData } };
+    }
+
+    @GrpcMethod('UserService')
     async registerBySMSCode(payload: { registerUserInput: CreateUserInput, verificationCode: string }) {
         const checkResult = this.authService.checkRegisterVerificationCode(payload.verificationCode, payload.registerUserInput.mobile);
         if (!checkResult) {

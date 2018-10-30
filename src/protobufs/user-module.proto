@@ -19,6 +19,11 @@ service UserService {
     rpc CountUser (CountUserRequest) returns (CountUserResponse);
     rpc SearchUserAccount (SearchUserAccountRequest) returns (SearchUserAccountResponse);
     rpc CountUserAccount (CountUserAccountRequest) returns (CountUserAccountResponse);
+    rpc RenewToken (RenewTokenRequest) returns (LoginResponse);
+}
+
+message RenewTokenRequest {
+    string userId = 1;
 }
 
 message SearchUserRequest {
