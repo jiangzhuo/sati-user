@@ -1,34 +1,44 @@
 import { DynamicModule, Inject, Module, OnModuleInit } from '@nestjs/common';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+// import { APP_INTERCEPTOR } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
-import { configure as i18nConfigure } from 'i18n';
+// import { configure as i18nConfigure } from 'i18n';
 
 import { AuthService } from './auth/auth.service';
 
-import { UserGrpcController } from './controllers/user.grpc.controller';
+// import { UserGrpcController } from './controllers/user.grpc.controller';
 import { UserSchema } from './schemas/user.schema';
 import { UserService } from './services/user.service';
 
-import { AccountSchema} from './schemas/account.schema';
+import { AccountSchema } from './schemas/account.schema';
 
 import { CryptoUtil } from './utils/crypto.util';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
 
+import { MoleculerModule } from 'nestjs-moleculer';
+import { UserController } from './controllers/user.controller';
+
 @Module({
     imports: [
+        MoleculerModule.forRoot({
+            namespace: "sati-user",
+            // logger: bindings => new Logger(),
+            transporter: "TCP",
+            hotReload: true,
+        }),
         ElasticsearchModule.register({
             host: 'http://es-cn-mp90uekur0001c8sa.public.elasticsearch.aliyuncs.com:9200',
             httpAuth: 'elastic:Its%queOress2',
             log: 'trace',
         }),
         MongooseModule.forRoot('mongodb://sati:kjhguiyIUYkjh32kh@dds-2zee21d7f4fff2f41890-pub.mongodb.rds.aliyuncs.com:3717,dds-2zee21d7f4fff2f42351-pub.mongodb.rds.aliyuncs.com:3717/sati_user?replicaSet=mgset-9200157',
-        // MongooseModule.forRoot('mongodb://localhost:27017/module_user',
+            // MongooseModule.forRoot('mongodb://localhost:27017/module_user',
             { connectionName: 'user', useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true }),
         MongooseModule.forFeature([{ name: 'User', schema: UserSchema, collection: 'user' }], 'user'),
         MongooseModule.forFeature([{ name: 'Account', schema: AccountSchema, collection: 'account' }], 'user')
     ],
     controllers: [
-        UserGrpcController
+        // UserGrpcController
+        UserController
     ],
     providers: [
         AuthService,
@@ -40,14 +50,10 @@ import { ElasticsearchModule } from '@nestjs/elasticsearch';
 export class UserModule implements OnModuleInit {
     constructor(
         @Inject(UserService) private readonly userService: UserService
-    ) { }
+    ) {
+    }
 
-    static forRoot(options: { i18n: 'en-US' | 'zh-CN' }): DynamicModule {
-        i18nConfigure({
-            locales: ['en-US', 'zh-CN'],
-            defaultLocale: options.i18n,
-            directory: 'src/i18n'
-        });
+    static forRoot(): DynamicModule {
         return {
             module: UserModule
         };

@@ -1,6 +1,6 @@
 import { Controller, Inject, UseInterceptors } from '@nestjs/common';
 import { GrpcMethod, RpcException } from '@nestjs/microservices';
-import { __ as t } from 'i18n';
+// import { __ as t } from 'i18n';
 import * as SMSClient from '@alicloud/sms-sdk';
 import {
     ACCESS_KEY_ID,
@@ -15,6 +15,8 @@ import { UserService } from '../services/user.service';
 import { AuthService } from "../auth/auth.service";
 import { LoggingInterceptor } from "../interceptors/logging.interceptor";
 import { ErrorsInterceptor } from "../interceptors/exception.interceptor";
+import * as Moleculer from "moleculer";
+import MoleculerError = Moleculer.Errors.MoleculerError;
 
 @Controller()
 @UseInterceptors(LoggingInterceptor, ErrorsInterceptor)
@@ -28,10 +30,12 @@ export class UserGrpcController {
     async loginBySMSCode(payload: { mobile: string, verificationCode: string }) {
         const checkResult = this.authService.checkLoginVerificationCode(payload.verificationCode, payload.mobile);
         if (!checkResult) {
-            throw new RpcException({ code: 406, message: t('Login by mobile failed') });
+            // throw new RpcException({ code: 406, message: t('Login by mobile failed') });
+            throw new MoleculerError('Login by mobile failed', 406);
         }
         const user = await this.userService.loginByMobile(payload.mobile);
-        if (!user) throw new RpcException({ code: 406, message: t('Login by mobile failed no user') });
+        // if (!user) throw new RpcException({ code: 406, message: t('Login by mobile failed no user') });
+        if (!user) throw new MoleculerError('Login by mobile failed no user', 406);
         const tokenInfo = this.authService.createToken({ userId: user.id });
         return { data: { tokenInfo, user } };
     }
@@ -54,7 +58,8 @@ export class UserGrpcController {
     async registerBySMSCode(payload: { registerUserInput: CreateUserInput, verificationCode: string }) {
         const checkResult = this.authService.checkRegisterVerificationCode(payload.verificationCode, payload.registerUserInput.mobile);
         if (!checkResult) {
-            throw new RpcException({ code: 403, message: t('Registration by mobile failed') });
+            // throw new RpcException({ code: 403, message: t('Registration by mobile failed') });
+            throw new MoleculerError('Registration by mobile failed', 403);
         }
         let user = await this.userService.registerBySMSCode(payload.registerUserInput);
         return { data: user };

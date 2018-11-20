@@ -8,4 +8,4 @@ export const AccountSchema = new mongoose.Schema({
     type: String,
     createTime: Number,
     extraInfo: { type: String, default: '' },
-});
+}, { autoIndex: true, toJSON: { virtuals: true } });

@@ -12,4 +12,4 @@ export const UserSchema = new mongoose.Schema({
     updateTime: Number,
     balance: { type: Number, default: 0 },
     role: { type: Number, default: 0 }
-});
+}, { autoIndex: true, toJSON: { virtuals: true } });

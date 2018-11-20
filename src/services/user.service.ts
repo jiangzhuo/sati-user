@@ -2,7 +2,7 @@ import { forwardRef, HttpException, Inject, Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { Model } from "mongoose";
 import { InjectModel } from '@nestjs/mongoose';
-import { __ as t } from 'i18n';
+// import { __ as t } from 'i18n';
 
 import { AuthService } from '../auth/auth.service';
 import { User, CreateUserInput, UpdateUserInput } from '../interfaces/user.interface';
@@ -13,6 +13,8 @@ import { CryptoUtil } from '../utils/crypto.util';
 import { ObjectId } from 'bson';
 import * as moment from 'moment';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
+import { Errors } from 'moleculer';
+import MoleculerError = Errors.MoleculerError;
 
 @Injectable()
 export class UserService {
@@ -32,7 +34,8 @@ export class UserService {
 
     async updateUser(id: string, updateUserInput: UpdateUserInput): Promise<User> {
         let user = await this.userModel.findOne({ _id: id }).exec();
-        if (!user) throw new RpcException({ code: 404, message: t('User does not exist') });
+        // if (!user) throw new RpcException({ code: 404, message: t('User does not exist') });
+        if (!user) throw new MoleculerError('User does not exist', 404);
         console.log(updateUserInput)
         if (updateUserInput.nickname) {
             user = await this.userModel.findOneAndUpdate({ _id: id }, { nickname: updateUserInput.nickname }).exec();
@@ -57,9 +60,10 @@ export class UserService {
 
     async loginByMobileAndPassword(mobile: string, password: string) {
         const user = await this.userModel.findOne({ mobile }).exec();
-        if (!user) throw new RpcException({ code: 404, message: t('User does not exist') });
+        if (!user) throw new MoleculerError('User does not exist', 404);
         if (!await this.cryptoUtil.checkPassword(password, user.password)) {
-            throw new RpcException({ code: 406, message: t('invalid password') });
+            // throw new RpcException({ code: 406, message: t('invalid password') });
+            throw new MoleculerError('invalid password', 406);
         }
         return user
     }
@@ -124,8 +128,8 @@ export class UserService {
             _id: id,
             balance: { $gte: -1 * changeValue }
         }, { $inc: { balance: changeValue } }, { new: true }).exec();
-        console.log(user)
-        if (!user) throw new RpcException({ code: 402, message: t('not enough balance') });
+        // if (!user) throw new RpcException({ code: 402, message: t('not enough balance') });
+        if (!user) throw new MoleculerError('not enough balance', 402);
         await this.accountModel.create({
             userId: id,
             value: changeValue,

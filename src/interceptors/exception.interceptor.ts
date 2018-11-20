@@ -8,7 +8,7 @@ import { HttpException } from '@nestjs/common';
 import { RpcException } from "@nestjs/microservices";
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { __ as t } from "i18n";
+// import { __ as t } from "i18n";
 
 @Injectable()
 export class ErrorsInterceptor implements NestInterceptor {
