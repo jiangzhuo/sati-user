@@ -1,3 +1,6 @@
+import { hostname } from "os";
+import * as Sentry from '@sentry/node';
+Sentry.init({ dsn: 'https://f788de537d2648cb96b4b9f5081165c1@sentry.io/1318216', serverName: hostname() });
 import './hackNestLogger';
 // import {Transport} from '@nestjs/common/enums/transport.enum';
 import {NestFactory} from '@nestjs/core';

@@ -20,10 +20,11 @@ import { UserController } from './controllers/user.controller';
 @Module({
     imports: [
         MoleculerModule.forRoot({
-            namespace: "sati-user",
+            namespace: "sati",
             // logger: bindings => new Logger(),
             transporter: "TCP",
             hotReload: true,
+            cacher: "Memory",
         }),
         ElasticsearchModule.register({
             host: 'http://es-cn-mp90uekur0001c8sa.public.elasticsearch.aliyuncs.com:9200',

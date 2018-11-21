@@ -22,6 +22,7 @@
         "@nestjs/elasticsearch": "^0.1.2",
         "@nestjs/microservices": "^5.3.7",
         "@nestjs/mongoose": "^5.2.2",
+        "@sentry/node": "^4.3.4",
         "bcryptjs": "^2.4.3",
         "grpc": "^1.15.0",
         "i18n": "^0.8.3",

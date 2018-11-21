@@ -51,7 +51,14 @@ export class UserController extends Service {
                 getRegisterVerificationCode: this.getRegisterVerificationCode,
                 getLoginVerificationCode: this.getLoginVerificationCode,
                 updateUserById: this.updateUserById,
-                getUserById: this.getUserById,
+                // getUserById: this.getUserById,
+                getUserById: {
+                    cache: {
+                        keys: ["id", "#udid"],
+                        ttl: 5,
+                    },
+                    handler: this.getUserById
+                },
                 getUserByMobile: this.getUserByMobile,
                 getUser: this.getUser,
                 changeBalance: this.changeBalance,
@@ -91,6 +98,7 @@ export class UserController extends Service {
     }
 
     async loginBySMSCode(ctx: Context) {
+        // console.log(ctx)
         const checkResult = this.authService.checkLoginVerificationCode(ctx.params.verificationCode, ctx.params.mobile);
         if (!checkResult) {
             // throw new RpcException({code: 406, message: t('Login by mobile failed')});
@@ -155,6 +163,7 @@ export class UserController extends Service {
     }
 
     async getUserById(ctx: Context) {
+        console.log(ctx.meta)
         const user = await this.userService.getUserById(ctx.params.id);
         return { data: user };
     }
