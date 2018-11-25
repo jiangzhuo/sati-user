@@ -25,6 +25,7 @@ import { UserController } from './controllers/user.controller';
             transporter: "TCP",
             hotReload: true,
             cacher: "Memory",
+            logLevel: 'debug'
         }),
         ElasticsearchModule.register({
             host: 'http://es-cn-mp90uekur0001c8sa.public.elasticsearch.aliyuncs.com:9200',

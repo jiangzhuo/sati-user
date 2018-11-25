@@ -36,19 +36,18 @@ export class UserService {
         let user = await this.userModel.findOne({ _id: id }).exec();
         // if (!user) throw new RpcException({ code: 404, message: t('User does not exist') });
         if (!user) throw new MoleculerError('User does not exist', 404);
-        console.log(updateUserInput)
         if (updateUserInput.nickname) {
-            user = await this.userModel.findOneAndUpdate({ _id: id }, { nickname: updateUserInput.nickname }).exec();
+            user = await this.userModel.findOneAndUpdate({ _id: id }, { nickname: updateUserInput.nickname }, { new: true }).exec();
         }
         if (updateUserInput.avatar) {
-            user = await this.userModel.findOneAndUpdate({ _id: id }, { avatar: updateUserInput.avatar }).exec();
+            user = await this.userModel.findOneAndUpdate({ _id: id }, { avatar: updateUserInput.avatar }, { new: true }).exec();
         }
         if (updateUserInput.password) {
             const newPassword = await this.cryptoUtil.encryptPassword(updateUserInput.password);
-            user = await this.userModel.findOneAndUpdate({ _id: id }, { password: newPassword }).exec();
+            user = await this.userModel.findOneAndUpdate({ _id: id }, { password: newPassword }, { new: true }).exec();
         }
         if (updateUserInput.status) {
-            user = await this.userModel.findOneAndUpdate({ _id: id }, { status: updateUserInput.status }).exec();
+            user = await this.userModel.findOneAndUpdate({ _id: id }, { status: updateUserInput.status }, { new: true }).exec();
         }
         return user;
     }

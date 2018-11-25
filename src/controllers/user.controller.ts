@@ -48,6 +48,7 @@ export class UserController extends Service {
                 loginByMobileAndPassword: this.loginByMobileAndPassword,
                 renewToken: this.renewToken,
                 registerBySMSCode: this.registerBySMSCode,
+                updatePasswordBySMSCode: this.updatePasswordBySMSCode,
                 getRegisterVerificationCode: this.getRegisterVerificationCode,
                 getLoginVerificationCode: this.getLoginVerificationCode,
                 updateUserById: this.updateUserById,
@@ -55,7 +56,7 @@ export class UserController extends Service {
                 getUserById: {
                     cache: {
                         keys: ["id", "#udid"],
-                        ttl: 5,
+                        ttl: 30,
                     },
                     handler: this.getUserById
                 },
@@ -133,6 +134,20 @@ export class UserController extends Service {
         return { data: user };
     }
 
+    async updatePasswordBySMSCode(ctx: Context) {
+        const checkResult = this.authService.checkUpdatePasswordVerificationCode(ctx.params.verificationCode, ctx.params.mobile);
+        if (!checkResult) {
+            // throw new RpcException({ code: 403, message: t('Registration by mobile failed') });
+            throw new MoleculerError('change password by mobile failed', 403);
+        }
+        let user = await this.userService.getUserByMobile(ctx.params.UserInput.mobile);
+        if (user) {
+            throw new MoleculerError('user not found', 404);
+        }
+        user = await this.userService.updateUser(user.id, { password: ctx.params.password });
+        return { data: user };
+    }
+
     async getRegisterVerificationCode(ctx: Context) {
         let verificationCode = this.authService.generateRegisterVerificationCode(ctx.params.mobile);
         let smsClient = new SMSClient({ accessKeyId: ACCESS_KEY_ID, secretAccessKey: ACCESS_KEY_SECRET });
@@ -158,12 +173,13 @@ export class UserController extends Service {
     }
 
     async updateUserById(ctx: Context) {
+        this.broker.cacher.clean(`user.getUserById:${ctx.params.id}*`);
         let user = await this.userService.updateUser(ctx.params.id, ctx.params);
         return { data: user };
     }
 
     async getUserById(ctx: Context) {
-        console.log(ctx.meta)
+        // console.log(ctx.meta)
         const user = await this.userService.getUserById(ctx.params.id);
         return { data: user };
     }

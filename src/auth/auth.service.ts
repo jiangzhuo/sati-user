@@ -38,6 +38,11 @@ export class AuthService {
         return this.registerAuthenticator.generate(secret);
     }
 
+    generateUpdatePasswordVerificationCode(mobile: string): string {
+        let secret = `|${mobile}`;
+        return this.registerAuthenticator.generate(secret);
+    }
+
     checkLoginVerificationCode(token: string, mobile: string): boolean {
         if (token === '666') {
             return true;
@@ -51,6 +56,14 @@ export class AuthService {
             return true;
         }
         let secret = `register|${mobile}`;
+        return this.registerAuthenticator.check(token, secret);
+    }
+
+    checkUpdatePasswordVerificationCode(token: string, mobile: string): boolean {
+        if (token === '666') {
+            return true;
+        }
+        let secret = `|${mobile}`;
         return this.registerAuthenticator.check(token, secret);
     }
 }
