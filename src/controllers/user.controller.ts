@@ -2,13 +2,6 @@ import { Inject, Injectable } from '@nestjs/common';
 // import {GrpcMethod, RpcException} from '@nestjs/microservices';
 // import { __ as t } from 'i18n';
 import * as SMSClient from '@alicloud/sms-sdk';
-import {
-    ACCESS_KEY_ID,
-    ACCESS_KEY_SECRET,
-    REGISTER_TEMPLATE_CODE,
-    LOGIN_TEMPLATE_CODE,
-    SIGN_NAME
-} from '../configurations/sms.config'
 
 // import { CreateUserInput, UpdateUserInput } from '../interfaces/user.interface';
 import { UserService } from '../services/user.service';
@@ -150,11 +143,11 @@ export class UserController extends Service {
 
     async getRegisterVerificationCode(ctx: Context) {
         let verificationCode = this.authService.generateRegisterVerificationCode(ctx.params.mobile);
-        let smsClient = new SMSClient({ accessKeyId: ACCESS_KEY_ID, secretAccessKey: ACCESS_KEY_SECRET });
+        let smsClient = new SMSClient({ accessKeyId: process.env.SMS_ACCESS_KEY_ID, secretAccessKey: process.env.SMS_ACCESS_KEY_SECRET });
         await smsClient.sendSMS({
             PhoneNumbers: ctx.params.mobile,
-            SignName: SIGN_NAME,
-            TemplateCode: REGISTER_TEMPLATE_CODE,
+            SignName: process.env.SMS_SIGN_NAME,
+            TemplateCode: process.env.SMS_REGISTER_TEMPLATE_CODE,
             TemplateParam: `{"code":"${verificationCode}"}`
         });
         return { data: verificationCode };
@@ -162,11 +155,11 @@ export class UserController extends Service {
 
     async getLoginVerificationCode(ctx: Context) {
         let verificationCode = this.authService.generateLoginVerificationCode(ctx.params.mobile);
-        let smsClient = new SMSClient({ accessKeyId: ACCESS_KEY_ID, secretAccessKey: ACCESS_KEY_SECRET });
+        let smsClient = new SMSClient({ accessKeyId: process.env.SMS_ACCESS_KEY_ID, secretAccessKey: process.env.SMS_ACCESS_KEY_SECRET });
         await smsClient.sendSMS({
             PhoneNumbers: ctx.params.mobile,
-            SignName: SIGN_NAME,
-            TemplateCode: LOGIN_TEMPLATE_CODE,
+            SignName: process.env.SMS_SIGN_NAME,
+            TemplateCode: process.env.SMS_LOGIN_TEMPLATE_CODE,
             TemplateParam: `{"code":"${verificationCode}"}`
         });
         return { data: verificationCode };

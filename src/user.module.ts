@@ -25,14 +25,14 @@ import { UserController } from './controllers/user.controller';
             transporter: "TCP",
             hotReload: true,
             cacher: "Memory",
-            logLevel: 'debug'
+            logLevel: process.env.LOG_LEVEL
         }),
         ElasticsearchModule.register({
-            host: 'http://es-cn-mp90uekur0001c8sa.public.elasticsearch.aliyuncs.com:9200',
-            httpAuth: 'elastic:Its%queOress2',
+            host: process.env.ELASTICSEARCH_HOST,
+            httpAuth: process.env.ELASTICSEARCH_HTTP_AUTH,
             log: 'trace',
         }),
-        MongooseModule.forRoot('mongodb://sati:kjhguiyIUYkjh32kh@dds-2zee21d7f4fff2f41890-pub.mongodb.rds.aliyuncs.com:3717,dds-2zee21d7f4fff2f42351-pub.mongodb.rds.aliyuncs.com:3717/sati?replicaSet=mgset-9200157',
+        MongooseModule.forRoot(process.env.MONGODB_CONNECTION_STR,
         //     MongooseModule.forRoot('mongodb://localhost:27017/sati',
         //     MongooseModule.forRoot('mongodb://root:kjhguiyIUYkjh32kh@dds-2ze5f8fcc72702b41188-pub.mongodb.rds.aliyuncs.com:3717,dds-2ze5f8fcc72702b42191-pub.mongodb.rds.aliyuncs.com:3717/sati?replicaSet=mgset-10924097&authDB=admin',
             { connectionName: 'sati', useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true }),
