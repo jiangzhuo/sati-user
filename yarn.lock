@@ -731,6 +731,13 @@ cors@2.8.4:
     object-assign "^4"
     vary "^1"
 
+coupon-code@^0.4.5:
+  version "0.4.5"
+  resolved "http://registry.npm.taobao.org/coupon-code/download/coupon-code-0.4.5.tgz#e8be0567125c8c87abd1da882c2f8a2f9005132a"
+  integrity sha1-6L4FZxJcjIer0dqILC+KL5AFEyo=
+  dependencies:
+    xtend "~4.0.0"
+
 crypt@~0.0.1:
   version "0.0.2"
   resolved "http://registry.npm.taobao.org/crypt/download/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
@@ -1734,6 +1741,11 @@ mongodb@^3.1.4:
     mongodb-core "3.1.3"
     safe-buffer "^5.1.2"
 
+mongoose-int32@^0.3.1:
+  version "0.3.1"
+  resolved "http://registry.npm.taobao.org/mongoose-int32/download/mongoose-int32-0.3.1.tgz#925ff85542e99c06681a309b759fb49330d67bdc"
+  integrity sha1-kl/4VULpnAZoGjCbdZ+0kzDWe9w=
+
 mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
@@ -2702,6 +2714,11 @@ vary@^1, vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
 
+voucher-code-generator@^1.1.1:
+  version "1.1.1"
+  resolved "http://registry.npm.taobao.org/voucher-code-generator/download/voucher-code-generator-1.1.1.tgz#c1e79d7102506ce50c65b824a9f4de137dd2718b"
+  integrity sha1-weedcQJQbOUMZbgkqfTeE33ScYs=
+
 watchr@~2.4.13:
   version "2.4.13"
   resolved "https://registry.yarnpkg.com/watchr/-/watchr-2.4.13.tgz#d74847bb4d6f90f61fe2c74f9f68662aa0e07601"
@@ -2763,7 +2780,7 @@ xregexp@2.0.0, xregexp@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/xregexp/-/xregexp-2.0.0.tgz#52a63e56ca0b84a7f3a5f3d61872f126ad7a5943"
 
-xtend@^4.0.0:
+xtend@^4.0.0, xtend@~4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 

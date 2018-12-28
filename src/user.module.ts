@@ -16,6 +16,9 @@ import { ElasticsearchModule } from '@nestjs/elasticsearch';
 
 import { MoleculerModule } from 'nestjs-moleculer';
 import { UserController } from './controllers/user.controller';
+import { CouponController } from './controllers/coupon.controller';
+import { CouponSchema } from './schemas/coupon.schema';
+import { CouponService } from "./services/coupon.service";
 
 @Module({
     imports: [
@@ -37,15 +40,17 @@ import { UserController } from './controllers/user.controller';
         //     MongooseModule.forRoot('mongodb://root:kjhguiyIUYkjh32kh@dds-2ze5f8fcc72702b41188-pub.mongodb.rds.aliyuncs.com:3717,dds-2ze5f8fcc72702b42191-pub.mongodb.rds.aliyuncs.com:3717/sati?replicaSet=mgset-10924097&authDB=admin',
             { connectionName: 'sati', useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true }),
         MongooseModule.forFeature([{ name: 'User', schema: UserSchema, collection: 'user' }], 'sati'),
-        MongooseModule.forFeature([{ name: 'Account', schema: AccountSchema, collection: 'account' }], 'sati')
+        MongooseModule.forFeature([{ name: 'Account', schema: AccountSchema, collection: 'account' }], 'sati'),
+        MongooseModule.forFeature([{ name: 'Coupon', schema: CouponSchema, collection: 'coupon' }], 'sati'),
     ],
     controllers: [
-        // UserGrpcController
-        UserController
+        UserController,
+        CouponController
     ],
     providers: [
         AuthService,
         UserService,
+        CouponService,
         CryptoUtil
     ],
     exports: []
