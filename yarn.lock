@@ -335,6 +335,11 @@ ambi@^2.2.0:
     editions "^1.1.1"
     typechecker "^4.3.0"
 
+ansi-color@^0.2.1:
+  version "0.2.1"
+  resolved "http://registry.npm.taobao.org/ansi-color/download/ansi-color-0.2.1.tgz#3e75c037475217544ed763a8db5709fa9ae5bf9a"
+  integrity sha1-PnXAN0dSF1RO12Oo21cJ+prlv5o=
+
 ansi-regex@^2.0.0, ansi-regex@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-2.1.1.tgz#c3b33ab5ee360d86e0e628f0468ae7ef27d654df"
@@ -524,6 +529,15 @@ buffer-equal-constant-time@1.0.1:
 buffer-from@^1.0.0, buffer-from@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
+
+bufrw@^1.2.1:
+  version "1.2.1"
+  resolved "http://registry.npm.taobao.org/bufrw/download/bufrw-1.2.1.tgz#93f222229b4f5f5e2cd559236891407f9853663b"
+  integrity sha1-k/IiIptPX14s1VkjaJFAf5hTZjs=
+  dependencies:
+    ansi-color "^0.2.1"
+    error "^7.0.0"
+    xtend "^4.0.0"
 
 builtin-modules@^1.1.1:
   version "1.1.1"
@@ -939,6 +953,14 @@ errlop@^1.0.2:
   resolved "https://registry.yarnpkg.com/errlop/-/errlop-1.0.3.tgz#dba29c90cf832c3d2ce469fe515d7e5eef2c6676"
   dependencies:
     editions "^1.3.4"
+
+error@7.0.2, error@^7.0.0:
+  version "7.0.2"
+  resolved "http://registry.npm.taobao.org/error/download/error-7.0.2.tgz#a5f75fff4d9926126ddac0ea5dc38e689153cb02"
+  integrity sha1-pfdf/02ZJhJt2sDqXcOOaJFTywI=
+  dependencies:
+    string-template "~0.2.1"
+    xtend "~4.0.0"
 
 es5-ext@^0.10.12, es5-ext@^0.10.14, es5-ext@^0.10.35, es5-ext@^0.10.45, es5-ext@^0.10.9, es5-ext@~0.10.14, es5-ext@~0.10.2:
   version "0.10.46"
@@ -1423,6 +1445,17 @@ iterare@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/iterare/-/iterare-0.0.8.tgz#a969a80a1fbff6b78f28776594d7bc2bdfab6aad"
 
+jaeger-client@3.11.0:
+  version "3.11.0"
+  resolved "http://registry.npm.taobao.org/jaeger-client/download/jaeger-client-3.11.0.tgz#4b38b820dd2a8fe355a81f4d84d85bc463c95d20"
+  integrity sha1-Szi4IN0qj+NVqB9NhNhbxGPJXSA=
+  dependencies:
+    node-int64 "^0.4.0"
+    opentracing "^0.13.0"
+    thriftrw "^3.5.0"
+    uuid "^3.2.1"
+    xorshift "^0.2.0"
+
 js-tokens@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
@@ -1549,9 +1582,19 @@ lodash.once@^4.0.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
 
+lodash@4.17.10:
+  version "4.17.10"
+  resolved "http://registry.npm.taobao.org/lodash/download/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
+  integrity sha1-G3eTz3JZ6jj7NmHU04syYK+K5Oc=
+
 lodash@4.17.11, lodash@^4.17.10, lodash@^4.17.5:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+
+long@^2.4.0:
+  version "2.4.0"
+  resolved "http://registry.npm.taobao.org/long/download/long-2.4.0.tgz#9fa180bb1d9500cdc29c4156766a1995e1f4524f"
+  integrity sha1-n6GAux2VAM3CnEFWdmoZleH0Uk8=
 
 long@^4.0.0:
   version "4.0.0"
@@ -1688,6 +1731,15 @@ mkdirp@^0.5.0, mkdirp@^0.5.1:
   resolved "http://registry.npmjs.org/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
+
+moleculer-jaeger@^0.2.0:
+  version "0.2.0"
+  resolved "http://registry.npm.taobao.org/moleculer-jaeger/download/moleculer-jaeger-0.2.0.tgz#656c8ebf78b3a96fd2bbab1be582d89b58c8738e"
+  integrity sha1-ZWyOv3izqW/Su6sb5YLYm1jIc44=
+  dependencies:
+    jaeger-client "3.11.0"
+    lodash "4.17.10"
+    node-int64 "0.4.0"
 
 moleculer@^0.13.4:
   version "0.13.4"
@@ -1902,6 +1954,11 @@ node-fetch@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.2.0.tgz#4ee79bde909262f9775f731e3656d0db55ced5b5"
 
+node-int64@0.4.0, node-int64@^0.4.0:
+  version "0.4.0"
+  resolved "http://registry.npm.taobao.org/node-int64/download/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
+  integrity sha1-h6kGXNs1XTGC2PlM4RGIuCXGijs=
+
 node-pre-gyp@^0.10.0:
   version "0.10.3"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.10.3.tgz#3070040716afdc778747b61b6887bf78880b80fc"
@@ -1977,6 +2034,11 @@ once@^1.3.0, once@^1.3.1, once@^1.4.0:
   resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
   dependencies:
     wrappy "1"
+
+opentracing@^0.13.0:
+  version "0.13.0"
+  resolved "http://registry.npm.taobao.org/opentracing/download/opentracing-0.13.0.tgz#6a341442f09d7d866bc11ed03de1e3828e3d6aab"
+  integrity sha1-ajQUQvCdfYZrwR7QPeHjgo49aqs=
 
 optional@0.1.4:
   version "0.1.4"
@@ -2444,6 +2506,11 @@ streamsearch@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/streamsearch/-/streamsearch-0.1.2.tgz#808b9d0e56fc273d809ba57338e929919a1a9f1a"
 
+string-template@~0.2.1:
+  version "0.2.1"
+  resolved "http://registry.npm.taobao.org/string-template/download/string-template-0.2.1.tgz#42932e598a352d01fc22ec3367d9d84eec6c9add"
+  integrity sha1-QpMuWYo1LQH8IuwzZ9nYTuxsmt0=
+
 string-width@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-1.0.2.tgz#118bdf5b8cdc51a2a7e70d211e07e2b0b9b107d3"
@@ -2543,6 +2610,15 @@ thenify-all@^1.0.0:
 thirty-two@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/thirty-two/-/thirty-two-1.0.2.tgz#4ca2fffc02a51290d2744b9e3f557693ca6b627a"
+
+thriftrw@^3.5.0:
+  version "3.11.3"
+  resolved "http://registry.npm.taobao.org/thriftrw/download/thriftrw-3.11.3.tgz#2cef6b4d089b7ba6275198b86582881582907d45"
+  integrity sha1-LO9rTQibe6YnUZi4ZYKIFYKQfUU=
+  dependencies:
+    bufrw "^1.2.1"
+    error "7.0.2"
+    long "^2.4.0"
 
 thunkify@^2.1.2:
   version "2.1.2"
@@ -2706,7 +2782,7 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
 
-uuid@3.3.2, uuid@^3.3.2:
+uuid@3.3.2, uuid@^3.2.1, uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 
@@ -2775,6 +2851,11 @@ xml2js@^0.4.17:
 xmlbuilder@~9.0.1:
   version "9.0.7"
   resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
+
+xorshift@^0.2.0:
+  version "0.2.1"
+  resolved "http://registry.npm.taobao.org/xorshift/download/xorshift-0.2.1.tgz#fcd82267e9351c13f0fb9c73307f25331d29c63a"
+  integrity sha1-/NgiZ+k1HBPw+5xzMH8lMx0pxjo=
 
 xregexp@2.0.0, xregexp@^2.0.0:
   version "2.0.0"

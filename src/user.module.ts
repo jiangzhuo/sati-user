@@ -19,17 +19,24 @@ import { UserController } from './controllers/user.controller';
 import { CouponController } from './controllers/coupon.controller';
 import { CouponSchema } from './schemas/coupon.schema';
 import { CouponService } from "./services/coupon.service";
+import { JaegerController } from './controllers/jaeger.controller';
+import * as jaeger from 'moleculer-jaeger';
 
 @Module({
     imports: [
         MoleculerModule.forRoot({
             namespace: "sati",
             // logger: bindings => new Logger(),
+            metrics: true,
             transporter: "TCP",
             hotReload: true,
             cacher: "Memory",
             logLevel: process.env.LOG_LEVEL
         }),
+        MoleculerModule.forFeature([{
+            name: 'jaeger',
+            schema: jaeger,
+        }]),
         ElasticsearchModule.register({
             host: process.env.ELASTICSEARCH_HOST,
             httpAuth: process.env.ELASTICSEARCH_HTTP_AUTH,
@@ -45,7 +52,8 @@ import { CouponService } from "./services/coupon.service";
     ],
     controllers: [
         UserController,
-        CouponController
+        CouponController,
+        // JaegerController
     ],
     providers: [
         AuthService,
