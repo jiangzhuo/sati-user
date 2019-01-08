@@ -82,10 +82,10 @@ async function bootstrap() {
     Sentry.init({ dsn: process.env.SENTRY_DSN, serverName: hostname() });
 
     try {
-        let { UserModule } = require('./user.module');
+        const { UserModule } = require('./user.module');
         const app = await NestFactory.createApplicationContext(UserModule.forRoot());
     } catch (e) {
-        logger.error(e.toString());
+        logger.error(e);
         throw e;
     }
 }
