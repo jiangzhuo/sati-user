@@ -2430,6 +2430,11 @@ setprototypeof@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.1.0.tgz#d0bd85536887b6fe7c0d818cb962d9d91c54e656"
 
+shimmer@^1.2.0:
+  version "1.2.0"
+  resolved "http://registry.npm.taobao.org/shimmer/download/shimmer-1.2.0.tgz#f966f7555789763e74d8841193685a5e78736665"
+  integrity sha1-+Wb3VVeJdj502IQRk2haXnhzZmU=
+
 signal-exit@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"

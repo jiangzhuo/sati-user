@@ -1,8 +1,8 @@
 import { hostname } from "os";
 import * as Sentry from '@sentry/node';
-import './hackNestLogger';
+import './hackLogger';
 // import {Transport} from '@nestjs/common/enums/transport.enum';
-import {NestFactory} from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 // import {join} from 'path';
 import { ACMClient } from 'acm-client';
 import { Logger } from "@nestjs/common";
@@ -28,7 +28,7 @@ async function bootstrap() {
 
     // await app.listenAsync();
     // 初始化Logger
-    const logger = new Logger('sati');
+    const logger = new Logger();
 
     // 初始化ACM或者配置
     const acm = new NacosConfigClient({
@@ -71,6 +71,13 @@ async function bootstrap() {
         });
     });
     logger.log('init config finished');
+    // logger.log({"jiangzhuo":"hahahha"});
+    // logger.log(['jiangzhuo','rowrowrow','arararararar']);
+    // logger.error(new Error('jiangzhuo hehehe'));
+    // logger.error('jiangzhuo hehehe');
+    // logger.log('jiangzhuo\thohoho\theiheihei');
+    // logger.log('liuzhenzhendahuntun\thohoho\theiheihei');
+    // logger.log('nano\tliuzhenzhendahuntun\theiheihei');
 
     Sentry.init({ dsn: process.env.SENTRY_DSN, serverName: hostname() });
 
