@@ -3,13 +3,12 @@ import * as shimmer from 'shimmer';
 import { Logger as NestLogger } from '@nestjs/common';
 import { isObject } from '@nestjs/common/utils/shared.utils';
 import * as os from 'os';
-import { padEnd } from 'lodash';
 
 const printMessage = (output, level, context) => {
     const timestamp = Date.now();
     const nodeId = `${os.hostname().toLowerCase()}-${process.pid}`;
-    const namespace = `${padEnd('NEST', 10)}`;
-    const module = `${padEnd(context.toUpperCase(), 15)}`;
+    const namespace = 'NEST';
+    const module = context.toUpperCase();
     process.stdout.write(`${timestamp}\t${level}\t${nodeId}\t${namespace}\t${module}\t${output}\n`);
 };
 shimmer.wrap(NestLogger, 'log', (original) => {
@@ -66,8 +65,8 @@ shimmer.wrap(MoleculerLogger, 'createDefaultLogger', (original) => {
             const timestamp = Date.now();
             level = level.toUpperCase();
             const nodeId = `${os.hostname().toLowerCase()}-${process.pid}`;
-            const namespace = `${padEnd((bindings.ns || 'unknow').toUpperCase(), 10)}`;
-            const module = `${padEnd((bindings.mod || 'unknow').toUpperCase(), 15)}`;
+            const namespace = (bindings.ns || 'unknow').toUpperCase();
+            const module = (bindings.mod || 'unknow').toUpperCase();
             return `${timestamp}\t${level}\t${nodeId}\t${namespace}\t${module}\t${output}`;
         };
         return original(baseLogger, bindings, logLevel, logFormatter, logObjectPrinter);
