@@ -54,7 +54,8 @@ async function bootstrap() {
         { dataId: 'SMS_ACCESS_KEY_SECRET', group: 'sati' },
         { dataId: 'SMS_SIGN_NAME', group: 'sati' },
         { dataId: 'SMS_REGISTER_TEMPLATE_CODE', group: 'sati' },
-        { dataId: 'SMS_LOGIN_TEMPLATE_CODE', group: 'sati' }
+        { dataId: 'SMS_LOGIN_TEMPLATE_CODE', group: 'sati' },
+        { dataId: 'TRANSPORTER', group: 'sati' }
     ];
     const getAllConfigPromise = [];
     allConfigs.forEach((config) => {

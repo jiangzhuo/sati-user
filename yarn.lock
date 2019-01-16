@@ -1925,6 +1925,14 @@ nan@^2.0.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.11.0.tgz#574e360e4d954ab16966ec102c0c049fd961a099"
 
+nats@^1.2.2:
+  version "1.2.2"
+  resolved "http://registry.npm.taobao.org/nats/download/nats-1.2.2.tgz#0f6f290f146d0daa2c5906f98e7c5e00a75be539"
+  integrity sha1-D28pDxRtDaosWQb5jnxeAKdb5Tk=
+  dependencies:
+    nuid "^1.0.0"
+    ts-nkeys "^1.0.8"
+
 needle@^2.2.1:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/needle/-/needle-2.2.3.tgz#c1b04da378cd634d8befe2de965dc2cfb0fd65ca"
@@ -2006,6 +2014,11 @@ npmlog@^4.0.2:
     console-control-strings "~1.1.0"
     gauge "~2.7.3"
     set-blocking "~2.0.0"
+
+nuid@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/nuid/download/nuid-1.0.0.tgz#04ecc21be41cc321940a9089984382f3bdc61638"
+  integrity sha1-BOzCG+QcwyGUCpCJmEOC873GFjg=
 
 number-is-nan@^1.0.0:
   version "1.0.1"
@@ -2637,6 +2650,13 @@ timers-ext@0.1, timers-ext@^0.1.5:
     es5-ext "~0.10.14"
     next-tick "1"
 
+ts-nkeys@^1.0.8:
+  version "1.0.10"
+  resolved "http://registry.npm.taobao.org/ts-nkeys/download/ts-nkeys-1.0.10.tgz#b4f978bdeea981fad6d3bc5183af6e76d6f7aa3c"
+  integrity sha1-tPl4ve6pgfrW07xRg69udtb3qjw=
+  dependencies:
+    tweetnacl "^1.0.0"
+
 ts-node@^7.0.0:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-7.0.1.tgz#9562dc2d1e6d248d24bc55f773e3f614337d9baf"
@@ -2686,6 +2706,11 @@ tsutils@^2.27.2:
   resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.29.0.tgz#32b488501467acbedd4b85498673a0812aca0b99"
   dependencies:
     tslib "^1.8.1"
+
+tweetnacl@^1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/tweetnacl/download/tweetnacl-1.0.0.tgz#713d8b818da42068740bf68386d0479e66fc8a7b"
+  integrity sha1-cT2LgY2kIGh0C/aDhtBHnmb8ins=
 
 type-check@~0.3.2:
   version "0.3.2"

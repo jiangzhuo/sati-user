@@ -13,6 +13,6 @@ RUN npm install
 # RUN npm install --only=production
 
 # Bundle app source
-COPY . .
+COPY ./dist/ .
 
-CMD [ "npm", "start" ]
+CMD [ "node", "main" ]
