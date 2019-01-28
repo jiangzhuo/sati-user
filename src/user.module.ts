@@ -19,7 +19,6 @@ import { UserController } from './controllers/user.controller';
 import { CouponController } from './controllers/coupon.controller';
 import { CouponSchema } from './schemas/coupon.schema';
 import { CouponService } from "./services/coupon.service";
-import { JaegerController } from './controllers/jaeger.controller';
 import * as jaeger from 'moleculer-jaeger';
 
 @Module({
