@@ -5,7 +5,8 @@ import './hackLogger';
 import { NestFactory } from '@nestjs/core';
 // import {join} from 'path';
 import { Logger } from "@nestjs/common";
-import { NacosConfigClient } from 'nacos';
+// import { NacosConfigClient } from 'nacos';
+const ACMClient = require('@alicloud/acm-sdk');
 
 async function bootstrap() {
     // const app = await NestFactory.createMicroservice(UserModule.forRoot({i18n: 'zh-CN'}), {
@@ -30,20 +31,17 @@ async function bootstrap() {
     const logger = new Logger();
 
     // 初始化ACM或者配置
-    const acm = new NacosConfigClient({
+    // const acm = new NacosConfigClient({
+    const acm = new ACMClient({
         endpoint: process.env.ACM_ENDPOINT || 'acm.aliyun.com', // acm 控制台查看
         namespace: process.env.ACM_NAMESPACE || '7d2026a8-72a8-4e56-893f-91dfa8ffc207', // acm 控制台查看
         accessKey: process.env.ACM_ACCESS_KEY_ID || 'LTAIhIOInA2pDmga', // acm 控制台查看
         secretKey: process.env.ACM_ACCESS_KEY_SECRET || '9FNpKB1WZpEwxWJbiWSMiCfuy3E3TL', // acm 控制台查看
         requestTimeout: parseInt(process.env.ACM_TIMEOUT) || 6000, // 请求超时时间，默认6s
     });
-    await acm.ready();
+    // await acm.ready();
     // const allConfigs = await acm.getConfigs();
     const allConfigs = [
-        { dataId: 'ACM_NAMESPACE', group: 'sati' },
-        { dataId: 'ACM_ACCESS_KEY_ID', group: 'sati' },
-        { dataId: 'ACM_ACCESS_KEY_SECRET', group: 'sati' },
-        { dataId: 'ACM_TIMEOUT', group: 'sati' },
         { dataId: 'SENTRY_DSN', group: 'sati' },
         { dataId: 'LOG_LEVEL', group: 'sati' },
         { dataId: 'ELASTICSEARCH_HOST', group: 'sati' },

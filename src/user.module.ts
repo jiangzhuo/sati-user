@@ -36,11 +36,6 @@ import * as jaeger from 'moleculer-jaeger';
             name: 'jaeger',
             schema: jaeger,
         }]),
-        ElasticsearchModule.register({
-            host: process.env.ELASTICSEARCH_HOST,
-            httpAuth: process.env.ELASTICSEARCH_HTTP_AUTH,
-            log: 'error',
-        }),
         MongooseModule.forRoot(process.env.MONGODB_CONNECTION_STR,
             //     MongooseModule.forRoot('mongodb://localhost:27017/sati',
             //     MongooseModule.forRoot('mongodb://root:kjhguiyIUYkjh32kh@dds-2ze5f8fcc72702b41188-pub.mongodb.rds.aliyuncs.com:3717,dds-2ze5f8fcc72702b42191-pub.mongodb.rds.aliyuncs.com:3717/sati?replicaSet=mgset-10924097&authDB=admin',
